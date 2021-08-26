@@ -1,0 +1,22 @@
+server:
+  port: 8090
+
+#logging:
+#  level:
+#    org:
+#      springframework: TRACE
+#    io:
+#      netty: TRACE
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring-db
+    username: root
+    password: toor
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
