@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  dc-redis:
+    container_name: dc-redis
+    image: redis:6.2.5-alpine    
+    # ports:
+    #   - '6379:6379'
+    volumes:
+      - 'redis-data:/data'      
+  dc-mysql:    
+    container_name: dc-mysql
+    image: mysql:5.7    
+    # ports:
+    #   - '3306:3306'
+    environment:
+    - MYSQL_ROOT_PASSWORD=toor
+    - MYSQL_DATABASE=spring-db
+    - MYSQL_USER=spring
+    - MYSQL_PASSWORD=spring      
+    volumes:
+      - 'mysql-data:/var/lib/mysql'
+  dc-spring:
+    container_name: dc-spring
+    image: redis-lettuce-cache:v1
+    ports:
+    - 80:8080
+    depends_on:
+    - dc-mysql
+    - dc-redis
+
+
+volumes:
+  redis-data:
+    external: true
+  mysql-data:
+    external: true    

@@ -1,5 +1,7 @@
 package com.cj.redislettucecache.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +15,22 @@ import java.time.Duration;
 
 @EnableCaching
 @Configuration
+@Slf4j
 public class RedisConfiguration {
+
+    @Value("${cache.redis.hostname}")
+    private String cacheHostname;
+
+    @Value("${cache.redis.port}")
+    private String cachePort;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
+
+        log.info("Cache Hostname : " + cacheHostname);
+        log.info("Cache Port : " + cachePort);
+
+        return new LettuceConnectionFactory(new RedisStandaloneConfiguration(cacheHostname, Integer.parseInt(cachePort)));
     }
 
     @Bean
